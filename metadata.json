@@ -1,0 +1,5 @@
+{
+  "name": "AI Face Fusion Pro",
+  "description": "Maximum quality application that seamlessly integrates a user's face into any target image using NanoBanana GeminiFlash 2.5. Automatically extracts descriptive prompts from scenes and blends faces with high fidelity, matching lighting, style, and composition.",
+  "requestFramePermissions": []
+}

@@ -1,10 +1,11 @@
 
-import { Language, AssetType } from '../types';
+import { Language, AssetType, AspectRatio } from '../types';
 
 interface Translation {
   title: string;
   subtitle: string;
   assetLabels: Record<AssetType, string>;
+  aspectRatios: Record<AspectRatio, string>;
   systemStatus: string;
   statusIdle: string;
   statusReadyToAnalyze: string;
@@ -21,6 +22,7 @@ interface Translation {
   resultTitle: string;
   resultPlaceholder: string;
   download: string;
+  ratioLabel: string;
   uploader: {
     clickToChange: string;
     clickOrDrag: string;
@@ -32,12 +34,19 @@ export const translations: Record<Language, Translation> = {
     title: "Valhalla Organizer: Face Fusion",
     subtitle: "Compose your perfect avatar. Mix style, clothing, and identity.",
     assetLabels: {
-      face: "YOUR FACE (Identity)",
-      clothing: "Clothing",
-      shoes: "Shoes / Footwear",
+      face: "YOUR FACE (Base Identity)",
+      clothing: "Clothing (The Outfit)",
+      shoes: "Shoes (Footwear)",
       accessories: "Accessories",
       hairstyle: "Hairstyle",
-      style: "Style / Background"
+      style: "Style / Background / Lighting"
+    },
+    aspectRatios: {
+      '1:1': 'Square (Instagram)',
+      '9:16': 'Vertical (TikTok/Reels)',
+      '16:9': 'Landscape (YouTube)',
+      '3:4': 'Portrait (3:4)',
+      '4:3': 'Classic (4:3)'
     },
     systemStatus: "SYSTEM STATUS",
     statusIdle: "Upload your face and at least one asset to begin.",
@@ -48,13 +57,14 @@ export const translations: Record<Language, Translation> = {
     statusRendering: "Gemini is fusing your identity into the composed scene...",
     statusSuccess: "Composition generated successfully!",
     errorAnalyze: "Failed to analyze assets.",
-    errorRender: "Failed to generate composition.",
+    errorRender: "Generation Failed",
     analyzeBtn: "Analyze Inputs & Plan",
     renderBtn: "Generate Composition",
     promptLabel: "Master Scene Description (Generated from inputs):",
     resultTitle: "Final Composition",
     resultPlaceholder: "Your generated image will appear here.",
     download: "Download Result",
+    ratioLabel: "Output Aspect Ratio",
     uploader: {
       clickToChange: "Change",
       clickOrDrag: "Upload"
@@ -64,12 +74,19 @@ export const translations: Record<Language, Translation> = {
     title: "Valhalla Organizer: Face Fusion",
     subtitle: "Создайте идеальный аватар. Смешивайте стиль, одежду и личность.",
     assetLabels: {
-      face: "ВАШЕ ЛИЦО (Обязательно)",
-      clothing: "Одежда",
+      face: "ВАШЕ ЛИЦО (Основа)",
+      clothing: "Одежда (Что надеть)",
       shoes: "Обувь",
       accessories: "Аксессуары",
       hairstyle: "Прическа",
-      style: "Стилистика / Фон"
+      style: "Стилистика / Фон / Свет"
+    },
+    aspectRatios: {
+      '1:1': 'Квадрат (Instagram)',
+      '9:16': 'Вертикальный (TikTok/Reels)',
+      '16:9': 'Пейзаж (YouTube)',
+      '3:4': 'Портрет (3:4)',
+      '4:3': 'Классика (4:3)'
     },
     systemStatus: "СТАТУС СИСТЕМЫ",
     statusIdle: "Загрузите фото лица и хотя бы один элемент стиля.",
@@ -80,13 +97,14 @@ export const translations: Record<Language, Translation> = {
     statusRendering: "Gemini внедряет вашу личность в созданную сцену...",
     statusSuccess: "Композиция успешно создана!",
     errorAnalyze: "Ошибка анализа ресурсов.",
-    errorRender: "Ошибка генерации изображения.",
+    errorRender: "Ошибка генерации.",
     analyzeBtn: "Анализ Входных Данных",
     renderBtn: "Генерация",
     promptLabel: "Описание Сцены (На основе ваших фото):",
     resultTitle: "Результат",
     resultPlaceholder: "Здесь появится ваше изображение.",
     download: "Скачать результат",
+    ratioLabel: "Формат изображения",
     uploader: {
       clickToChange: "Заменить",
       clickOrDrag: "Загрузить"

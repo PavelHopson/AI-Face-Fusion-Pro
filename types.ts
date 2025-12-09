@@ -11,3 +11,5 @@ export type Language = 'en' | 'ru';
 export type AssetType = 'face' | 'clothing' | 'shoes' | 'accessories' | 'hairstyle' | 'style';
 
 export type AssetMap = Partial<Record<AssetType, ImageFile>>;
+
+export type AspectRatio = '1:1' | '9:16' | '16:9' | '3:4' | '4:3';

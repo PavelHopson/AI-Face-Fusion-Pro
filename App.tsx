@@ -1,10 +1,11 @@
+
 import React, { useState, useCallback, useMemo } from 'react';
 import { ImageUploader } from './components/ImageUploader';
 import { Spinner } from './components/Spinner';
 import { WandIcon, DownloadIcon } from './components/icons';
 import { analyzeAssets, generateCompositeImage } from './services/geminiService';
 import { translations } from './utils/translations';
-import type { ImageFile, Language, AssetType, AssetMap } from './types';
+import type { ImageFile, Language, AssetType, AssetMap, AspectRatio } from './types';
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('ru'); // Default to RU as per persona
@@ -18,6 +19,9 @@ const App: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [status, setStatus] = useState<string>(t.statusIdle);
   const [error, setError] = useState<string | null>(null);
+  
+  // New Aspect Ratio State
+  const [aspectRatio, setAspectRatio] = useState<AspectRatio>('9:16');
 
   const toggleLanguage = () => setLang(prev => prev === 'en' ? 'ru' : 'en');
 
@@ -83,7 +87,7 @@ const App: React.FC = () => {
 
     try {
       // Pass ALL assets to the generation service for high fidelity
-      const compositeImage = await generateCompositeImage(assets, extractedPrompt);
+      const compositeImage = await generateCompositeImage(assets, extractedPrompt, aspectRatio);
       setGeneratedImage(`data:image/jpeg;base64,${compositeImage}`);
       setStatus(t.statusSuccess);
     } catch (err) {
@@ -104,7 +108,7 @@ const App: React.FC = () => {
     if (!generatedImage) return;
     const link = document.createElement('a');
     link.href = generatedImage;
-    link.download = 'valhalla-fusion.jpeg';
+    link.download = `valhalla-fusion-${aspectRatio}.jpeg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -208,6 +212,25 @@ const App: React.FC = () => {
             <div className="bg-slate-800/30 p-4 rounded-2xl border border-slate-700/50 h-full flex flex-col">
                <h3 className="text-sm font-bold text-slate-400 uppercase mb-3 ml-1 tracking-wider">Step 3: Render</h3>
                
+               {/* Aspect Ratio Selector */}
+               <div className="mb-4">
+                 <label className="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2 block">
+                    {t.ratioLabel}
+                 </label>
+                 <select 
+                    value={aspectRatio} 
+                    onChange={(e) => setAspectRatio(e.target.value as AspectRatio)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-200 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+                    disabled={isProcessing}
+                 >
+                    <option value="9:16">{t.aspectRatios['9:16']}</option>
+                    <option value="1:1">{t.aspectRatios['1:1']}</option>
+                    <option value="16:9">{t.aspectRatios['16:9']}</option>
+                    <option value="3:4">{t.aspectRatios['3:4']}</option>
+                    <option value="4:3">{t.aspectRatios['4:3']}</option>
+                 </select>
+               </div>
+
                <div className="flex-grow flex flex-col items-center justify-center bg-slate-900/50 rounded-xl border-2 border-dashed border-slate-700 p-4 relative overflow-hidden min-h-[400px]">
                 {isProcessing && !generatedImage ? (
                    <div className="flex flex-col items-center text-center z-10 animate-pulse">
